@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خطوبة أبانوب و مريم ❤️</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+body{
+margin:0;
+font-family:'Cairo',sans-serif;
+text-align:center;
+color:white;
+min-height:100vh;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+align-items:center;
+background:linear-gradient(135deg,#1a1a2e,#16213e);
+}
+
+h1{
+margin-top:40px;
+font-size:2rem;
+color:#ff4d6d;
+text-shadow:0 0 10px rgba(255,77,109,0.5);
+}
+
+/* العدادات */
+.countdown-container{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+padding:20px;
+max-width:400px;
+margin-top:20px;
+}
+.time-box{
+background:rgba(255,255,255,0.1);
+border-radius:15px;
+padding:20px 10px;
+min-width:90px;
+backdrop-filter:blur(5px);
+border:1px solid rgba(255,255,255,0.1);
+}
+.time-value{
+display:block;
+font-size:2.5rem;
+font-weight:bold;
+margin-bottom:5px;
+}
+.time-label{
+font-size:1rem;
+color:#ccc;
+}
+
+.buttons-container{ margin-top:30px; }
+button{
+padding:12px 25px;
+font-size:18px;
+border:none;
+border-radius:12px;
+margin:10px;
+cursor:pointer;
+transition:0.3s;
+font-family:'Cairo';
+}
+.music{background:#ff0066;color:white;}
+.location{background:#0099ff;color:white;}
+button:hover{transform:scale(1.05);opacity:0.9;}
+
+/* نجوم وقلوب */
+.star{position:fixed;width:2px;height:2px;background:white;animation:twinkle 2s infinite;z-index:-1;}
+@keyframes twinkle{0%,100%{opacity:0}50%{opacity:1;}}
+.heart{position:fixed;font-size:20px;animation:float 6s linear infinite;z-index:-1;}
+@keyframes float{0%{transform:translateY(100vh);}100%{transform:translateY(-10vh);}}
+
+#finalScreen{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+color:white;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+z-index:100;
+}
+#photo{width:250px;border-radius:20px;margin-top:20px;border:3px solid #ff4d6d;}
+</style>
+</head>
+<body>
+
+<h1>💍 خطوبة أبانوب و مريم 💍</h1>
+
+<div class="countdown-container">
+<div class="time-box"><span class="time-value" id="days">0</span><span class="time-label">أيام</span></div>
+<div class="time-box"><span class="time-value" id="hours">0</span><span class="time-label">ساعات</span></div>
+<div class="time-box"><span class="time-value" id="minutes">0</span><span class="time-label">دقائق</span></div>
+<div class="time-box" style="grid-column: span 3; margin-top: 10px;">
+<span class="time-value" id="seconds" style="color:#ff4d6d;">0</span>
+<span class="time-label">ثواني</span></div>
+</div>
+
+<div class="buttons-container">
+<button class="music" onclick="playMusic()">تشغيل الأغنية 🎵</button><br>
+<a href="https://maps.app.goo.gl/f6GjXusfdtFBRqBg9" target="_blank">
+<button class="location">لوكيشن البيت 📍</button>
+</a>
+</div>
+
+<audio id="song"><source src="song.mp3" type="audio/mpeg"></audio>
+
+<div id="finalScreen">
+<h1 id="countdown-final">10</h1>
+<img id="photo" src="photo.jpg" alt="صورة الخطوبة">
+<h2>أبانوب ❤️ مريم</h2>
+<p>من النهارده بدأ أجمل فصل في حياتنا.. ربنا يديم حبنا وفرحتنا 💍</p>
+</div>
+
+<script>
+/* نجوم */
+for(let i=0;i<80;i++){
+let star=document.createElement("div");
+star.className="star";
+star.style.left=Math.random()*100+"vw";
+star.style.top=Math.random()*100+"vh";
+star.style.animationDelay=Math.random()*2+"s";
+document.body.appendChild(star);
+}
+
+/* قلوب */
+function createHeart(){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=(Math.random()*3+3)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+}
+setInterval(createHeart,600);
+
+/* فرقعة */
+function confetti(){
+for(let i=0;i<80;i++){
+let c=document.createElement("div");
+c.style.position="fixed";
+c.style.width="8px";
+c.style.height="8px";
+c.style.background=["red","yellow","blue","pink"][Math.floor(Math.random()*4)];
+c.style.left=Math.random()*100+"vw";
+c.style.top="-10px";
+document.body.appendChild(c);
+c.animate([{transform:"translateY(0)"},{transform:"translateY(100vh)"}],{duration:3000});
+setTimeout(()=>c.remove(),3000);
+}
+}
+
+/* تشغيل الأغنية */
+function playMusic(){document.getElementById("song").play();}
+
+/* العداد */
+let target=new Date("March 27, 2026 11:00:00").getTime();
+let timer=setInterval(()=>{
+let now=new Date().getTime();
+let diff=target-now;
+
+if(diff<0){clearInterval(timer);finish();return;}
+
+document.getElementById("days").innerText=Math.floor(diff/(1000*60*60*24));
+document.getElementById("hours").innerText=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+document.getElementById("minutes").innerText=Math.floor((diff%(1000*60*60))/(1000*60));
+document.getElementById("seconds").innerText=Math.floor((diff%(1000*60))/1000);
+
+},1000);
+
+/* النهاية */
+function finish(){
+confetti(); // فرقعة أول ما يخلص العداد
+document.getElementById("finalScreen").style.display="flex";
+let n=10;
+let x=setInterval(()=>{
+n--;
+document.getElementById("countdown-final").innerText=n;
+if(n<=0){
+document.getElementById("countdown-final").style.display="none";
+clearInterval(x);
+}
+},1000);
+}
+</script>
+</body>
+</html>
