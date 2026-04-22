@@ -1,198 +1,97 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خطوبة أبانوب و مريم ❤️</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-
-body{
-margin:0;
-font-family:'Cairo',sans-serif;
-text-align:center;
-color:white;
-min-height:100vh;
-overflow:hidden;
-display:flex;
-flex-direction:column;
-align-items:center;
-background:linear-gradient(135deg,#1a1a2e,#16213e);
-}
-
-h1{
-margin-top:40px;
-font-size:2rem;
-color:#ff4d6d;
-text-shadow:0 0 10px rgba(255,77,109,0.5);
-}
-
-/* العدادات */
-.countdown-container{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px;
-padding:20px;
-max-width:400px;
-margin-top:20px;
-}
-.time-box{
-background:rgba(255,255,255,0.1);
-border-radius:15px;
-padding:20px 10px;
-min-width:90px;
-backdrop-filter:blur(5px);
-border:1px solid rgba(255,255,255,0.1);
-}
-.time-value{
-display:block;
-font-size:2.5rem;
-font-weight:bold;
-margin-bottom:5px;
-}
-.time-label{
-font-size:1rem;
-color:#ccc;
-}
-
-.buttons-container{ margin-top:30px; }
-button{
-padding:12px 25px;
-font-size:18px;
-border:none;
-border-radius:12px;
-margin:10px;
-cursor:pointer;
-transition:0.3s;
-font-family:'Cairo';
-}
-.music{background:#ff0066;color:white;}
-.location{background:#0099ff;color:white;}
-button:hover{transform:scale(1.05);opacity:0.9;}
-
-/* نجوم وقلوب */
-.star{position:fixed;width:2px;height:2px;background:white;animation:twinkle 2s infinite;z-index:-1;}
-@keyframes twinkle{0%,100%{opacity:0}50%{opacity:1;}}
-.heart{position:fixed;font-size:20px;animation:float 6s linear infinite;z-index:-1;}
-@keyframes float{0%{transform:translateY(100vh);}100%{transform:translateY(-10vh);}}
-
-#finalScreen{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:black;
-color:white;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-z-index:100;
-}
-#photo{width:250px;border-radius:20px;margin-top:20px;border:3px solid #ff4d6d;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لـ نور عيني ❤</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: radial-gradient(circle, #2c003e 0%, #000000 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; overflow: hidden; }
+        .card { background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); width: 100%; max-width: 600px; text-align: center; z-index: 10; }
+        .hidden { display: none; }
+        button { background: linear-gradient(145deg, #8e44ad, #732d91); color: white; border: none; padding: 15px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; margin: 5px; box-shadow: 3px 3px 6px rgba(0,0,0,0.4); transition: 0.2s; }
+        button:active { transform: translateY(3px); }
+        img, video { width: 100%; height: 350px; object-fit: cover; border-radius: 15px; border: 5px solid #fff; margin-bottom: 15px; }
+        .falling-heart { position: fixed; top: -10vh; font-size: 25px; pointer-events: none; z-index: 1; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+    </style>
 </head>
 <body>
 
-<h1>💍 خطوبة أبانوب و مريم 💍</h1>
-
-<div class="countdown-container">
-<div class="time-box"><span class="time-value" id="days">0</span><span class="time-label">أيام</span></div>
-<div class="time-box"><span class="time-value" id="hours">0</span><span class="time-label">ساعات</span></div>
-<div class="time-box"><span class="time-value" id="minutes">0</span><span class="time-label">دقائق</span></div>
-<div class="time-box" style="grid-column: span 3; margin-top: 10px;">
-<span class="time-value" id="seconds" style="color:#ff4d6d;">0</span>
-<span class="time-label">ثواني</span></div>
+<div class="card" id="loginArea">
+    <h2>أهلاً يا نور عيني 🌸</h2>
+    <input type="password" id="passInput" placeholder="اكتبي الباسورد" style="padding: 12px; border-radius: 20px; width: 80%; text-align: center; border: 1px solid #ccc;">
+    <br><button onclick="checkPassword()">ابدئي الرحلة ❤</button>
 </div>
 
-<div class="buttons-container">
-<button class="music" onclick="playMusic()">تشغيل الأغنية 🎵</button><br>
-<a href="https://maps.app.goo.gl/f6GjXusfdtFBRqBg9" target="_blank">
-<button class="location">لوكيشن البيت 📍</button>
-</a>
+<div class="card hidden" id="messageArea">
+    <p id="loveText" style="text-align: right; color: #333; line-height: 1.8; height: 250px; overflow-y: auto; font-size: 18px;"></p>
+    <button onclick="showMain()">شوفي ذكرياتنا يا روحي 📸</button>
 </div>
 
-<audio id="song"><source src="song.mp3" type="audio/mpeg"></audio>
-
-<div id="finalScreen">
-<h1 id="countdown-final">10</h1>
-<img id="photo" src="photo.jpg" alt="صورة الخطوبة">
-<h2>أبانوب ❤️ مريم</h2>
-<p>من النهارده بدأ أجمل فصل في حياتنا.. ربنا يديم حبنا وفرحتنا 💍</p>
+<div class="card hidden" id="mainArea">
+    <div id="mediaContainer"></div>
+    <p id="mediaText" style="font-weight: bold; color: #5e3370; min-height: 50px;"></p>
+    <button onclick="nextMedia()">التالي ❤</button>
+    <br>
+    <button style="background: #27ae60;" onclick="switchToVideos()">فيديوهاتنا 🎥</button>
+    <button style="background: #2980b9;" onclick="playMusic()">أغنيتنا 🎵</button>
 </div>
 
 <script>
-/* نجوم */
-for(let i=0;i<80;i++){
-let star=document.createElement("div");
-star.className="star";
-star.style.left=Math.random()*100+"vw";
-star.style.top=Math.random()*100+"vh";
-star.style.animationDelay=Math.random()*2+"s";
-document.body.appendChild(star);
-}
+    const fullText = "عايز اقلك اني مش بحبك 🥺انا بعشقك 😉😉ولو في كلمه اكبر من بعشقك كنت قلتها ليكي❤🌍ولو في كلام يوصف حبي ليكي او يوصف حته ربع حبي ليكي انا بحبك لدرجة اني مستعد اموت علشانك ❤️واخسر اي حاجه عشان نفضل مع بعض ❤️❤️🌍وافضل اعمل المستحيل عشان نبقى مع بعض 🌍❤حتى لو الدنيا كلها قالت مستحيل هفضل احاول عشان والله انتي ليا انا وبس 🌚❤️‍🩹وانا عارف ان في النهايه حبي وحبك هما الي هيفوزو على الدنيا باللي فيها وعارف ان ربنا حاسس بيا وهيستجيب لي دعواتي 🙏💓وربنا شايف اكيد انا بحبك ازاي وانتي بالنسبالي اي انا أصلاً حياتي بقت حلوه بسببك انتي وجودك خلاني ارجع احب الحياه حبيت حياتي عشان انتي فيها 🫂❤❤وكل يوم بدعي ربنا يحفظك ليا ويحميكي ويبعد عنك اي حاجه وحشه ✨❤ويجعلك من نصيبي كل صلاه بدعي اننا نبقى لبعض اي حد ممكن يقول اني زهقت من علاقتنا او مليت بس انا عمري ما مليت منك ابداً ي حبيبتي ❤🌍والله دول مش يومين عشتهم معاكي حلوين وخلاص هفضل انا احبك لحد آخر يوم في عمري 🌍❤❤انا جنبك لحد آخر نفس في عمري انا فضلت اتعلم الحب معاكي عرفت الحب 🫀❤لمه حبيتك حب مفيش واحد هيعرف يحبه مفيش كلام في الدنيا يقدر يوصف انا حبيتك قد اي🌚❤️‍🩹❤️‍🩹وتقدري تقولي انا مصدقت اني لقيت نصي التاني ساعات بحس اني ابنك وبباكي وانتي بنتي وحبيبتي وروح قلبي ❤🌍ولو فضلت اتكلم عمري كلو مش هديكي حقك مش هديكي حقك من الي بتعمليه معايا 🌘🫂🥹بس مفيش احن منك في الدنيا❤️‍🔥🌘كده دي اكتر حاجه مخلياني احبك ومتعلق بيكي برتاح لمه باجي افضفضلك من حجات مضيقاني❤🫂جيتي ختيني من وسط عالم غريب كنت تايه فيه كنت كاره حياتي باللي فيها انتي جيتي غيرتي كل ده 🥹❤❤انتي غيرتيني انا بصي بجد الكلام ده ليكي ي نور عيني انتي الي تستاهلي كل لحظه حلوه من عمري وحياتي انتي فعلاً حاجه حلوه في حياتي وعمري مشوف زيك تاني في حياتي بجد عشان انتي الوحيدة الي حبيتها وحبيتش حد غيرك اكتر من نفسي بجد في الدنيا دي وفرحان عشان انتي معايا وربنا يديمك ليا ي روحي وانتي هتفضلي في قلبي وبس عشان انتي قلبي والله وبحبك اوي كمان وربنا يخليكي ليا ميحرمنيش منك ابداً ي نور عيني 💞🫂 محظوظ علشان انتي دخلتي حياتي انا ربنا عطاني هديه وكانت احلى هديه من ربنا والله 😉😉😘بحبك والله ومقدرش استغنى عنك مهما حصل";
 
-/* قلوب */
-function createHeart(){
-let h=document.createElement("div");
-h.className="heart";
-h.innerHTML="❤️";
-h.style.left=Math.random()*100+"vw";
-h.style.animationDuration=(Math.random()*3+3)+"s";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),6000);
-}
-setInterval(createHeart,600);
+    const gallery = [
+        {type: "img", src: "images/loly1.jpg", text: "أول صورة لينا يا روحي ❤"},
+        {type: "img", src: "images/loly2.jpg", text: "ضحكتك دي هي دنيتي 🌍"},
+        {type: "img", src: "images/loly3.jpg", text: "أحلى هدية من ربنا 🫂"},
+        {type: "img", src: "images/loly4.jpg", text: "مع بعض هنعدي كل حاجة 💓"},
+        {type: "img", src: "images/loly5.jpg", text: "انتي قلبي وروحي وكل حياتي ✨"}
+    ];
+    const videos = [
+        {type: "vid", src: "videos/video1.mp4", text: "فيديو ذكرى 1 🎥"},
+        {type: "vid", src: "videos/video2.mp4", text: "فيديو ذكرى 2 🎥"},
+        {type: "vid", src: "videos/video3.mp4", text: "فيديو ذكرى 3 🎥"},
+        {type: "vid", src: "videos/video4.mp4", text: "فيديو ذكرى 4 🎥"}
+    ];
 
-/* فرقعة */
-function confetti(){
-for(let i=0;i<80;i++){
-let c=document.createElement("div");
-c.style.position="fixed";
-c.style.width="8px";
-c.style.height="8px";
-c.style.background=["red","yellow","blue","pink"][Math.floor(Math.random()*4)];
-c.style.left=Math.random()*100+"vw";
-c.style.top="-10px";
-document.body.appendChild(c);
-c.animate([{transform:"translateY(0)"},{transform:"translateY(100vh)"}],{duration:3000});
-setTimeout(()=>c.remove(),3000);
-}
-}
+    let currentList = gallery, index = 0;
 
-/* تشغيل الأغنية */
-function playMusic(){document.getElementById("song").play();}
+    function checkPassword() {
+        if (document.getElementById("passInput").value === "loly") {
+            document.getElementById("loginArea").classList.add("hidden");
+            document.getElementById("messageArea").classList.remove("hidden");
+            document.getElementById("loveText").innerText = fullText;
+        } else { alert("الباسورد غلط!"); }
+    }
 
-/* العداد */
-let target=new Date("March 27, 2026 11:00:00").getTime();
-let timer=setInterval(()=>{
-let now=new Date().getTime();
-let diff=target-now;
+    function showMain() {
+        document.getElementById("messageArea").classList.add("hidden");
+        document.getElementById("mainArea").classList.remove("hidden");
+        render();
+    }
 
-if(diff<0){clearInterval(timer);finish();return;}
+    function render() {
+        const item = currentList[index];
+        document.getElementById("mediaContainer").innerHTML = item.type === "vid" 
+            ? `<video controls src="${item.src}"></video>` 
+            : `<img src="${item.src}">`;
+        document.getElementById("mediaText").innerText = item.text;
+    }
 
-document.getElementById("days").innerText=Math.floor(diff/(1000*60*60*24));
-document.getElementById("hours").innerText=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-document.getElementById("minutes").innerText=Math.floor((diff%(1000*60*60))/(1000*60));
-document.getElementById("seconds").innerText=Math.floor((diff%(1000*60))/1000);
+    function nextMedia() { index = (index + 1) % currentList.length; render(); }
+    function switchToVideos() { currentList = videos; index = 0; render(); }
+    function playMusic() { new Audio('audio/song.mp3').play(); }
 
-},1000);
-
-/* النهاية */
-function finish(){
-confetti(); // فرقعة أول ما يخلص العداد
-document.getElementById("finalScreen").style.display="flex";
-let n=10;
-let x=setInterval(()=>{
-n--;
-document.getElementById("countdown-final").innerText=n;
-if(n<=0){
-document.getElementById("countdown-final").style.display="none";
-clearInterval(x);
-}
-},1000);
-}
+    // القلوب المتساقطة
+    setInterval(() => {
+        const h = document.createElement('div');
+        h.className = 'falling-heart';
+        h.innerHTML = ['❤️', '💘', '💕', '💜', '❤️‍🩹'][Math.floor(Math.random()*5)];
+        h.style.left = Math.random() * 100 + 'vw';
+        h.style.animationDuration = Math.random() * 3 + 3 + 's';
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 6000);
+    }, 150);
 </script>
 </body>
 </html>
